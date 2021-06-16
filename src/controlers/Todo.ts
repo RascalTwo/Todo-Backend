@@ -1,6 +1,8 @@
 import { Todo, TodoAttributes } from '../models/Todo.js';
 import { RequestHandler } from 'express';
 import Query from 'mysql2/typings/mysql/lib/protocol/sequences/Query';
+import { WebsocketRequestHandler } from 'express-ws';
+import WebSocket from 'ws';
 
 type TodoPayload = Omit<TodoAttributes, 'list_code'> & {
   created: number;
@@ -53,3 +55,60 @@ export const handleDeleteTodo = asyncHandler<{ code: string; created: string }>(
   await Todo.destroy({ where: { list_code, created } });
   return res.status(200).end();
 });
+
+const rooms: Record<string, Record<string, WebSocket>> = {};
+
+type WebsocketActions = 'create' | 'update' | 'delete';
+type WebsocketResponses = WebsocketActions | 'error';
+
+const getWebsocketResponse = async (
+  list_code: string,
+  action: WebsocketActions,
+  payload: any,
+): Promise<[WebsocketResponses, any]> => {
+  switch (action) {
+    case 'create': {
+      const text: string = payload;
+      const newTodo = await Todo.create({ list_code, text });
+      return ['create', newTodo];
+    }
+    case 'update': {
+      const { created, ...todoPayload } = payload as TodoPayload;
+      await Todo.update({ list_code, ...todoPayload }, { where: { created } });
+      const updatedTodo = await Todo.findOne({ where: { list_code, created } });
+      return ['update', updatedTodo];
+    }
+    case 'delete': {
+      const created: number = payload;
+      await Todo.destroy({ where: { list_code, created } });
+      return ['delete', created];
+    }
+    default:
+      return ['error', `Unknown action: ${action}`];
+  }
+};
+
+export const handleWebsocket: WebsocketRequestHandler = (ws, req) => {
+  const list_code = req.params['code']!;
+
+  const uuid = Date.now().toString();
+  if (!(list_code in rooms)) rooms[list_code] = {};
+  rooms[list_code]![uuid] = ws;
+  ws.on('close', () => {
+    delete rooms[list_code]![uuid];
+  });
+
+  ws.on('message', async message => {
+    const [action, payload]: [WebsocketActions, any] = JSON.parse(message as string);
+    const response = await getWebsocketResponse(list_code, action, payload);
+    const responseString = JSON.stringify(response);
+
+    if (response[0] === 'error') {
+      ws.send(responseString);
+      return;
+    }
+    for (const member of Object.values(rooms[list_code]!)) {
+      member.send(responseString);
+    }
+  });
+};

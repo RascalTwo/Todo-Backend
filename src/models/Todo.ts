@@ -8,7 +8,10 @@ export interface TodoAttributes {
   updated: Date;
 }
 
-export class Todo extends Model<TodoAttributes, Optional<TodoAttributes, 'completed' | 'created' | 'updated'>> implements TodoAttributes {
+export class Todo
+  extends Model<TodoAttributes, Optional<TodoAttributes, 'completed' | 'created' | 'updated'>>
+  implements TodoAttributes
+{
   public list_code!: string;
   public text!: string;
   public completed!: Date | null;
@@ -16,17 +19,17 @@ export class Todo extends Model<TodoAttributes, Optional<TodoAttributes, 'comple
   public readonly created!: Date;
   public readonly updated!: Date;
 
-  toJSON(){
+  toJSON() {
     const { list_code, text, completed, created, updated } = this.get();
     return {
-      list_code, text,
+      list_code,
+      text,
       completed: completed?.getTime() || null,
       created: created.getTime(),
-      updated: updated.getTime()
-    }
+      updated: updated.getTime(),
+    };
   }
 }
-
 
 export default (sequelize: Sequelize) => {
   Todo.init(
@@ -43,17 +46,17 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.DATE,
       },
       created: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
       },
       updated: {
-        type: DataTypes.DATE
-      }
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,
       tableName: 'todo',
       createdAt: 'created',
-      updatedAt: 'updated'
+      updatedAt: 'updated',
     },
   );
   Todo.removeAttribute('id');
