@@ -1,0 +1,6 @@
+node_modules
+.kanbn
+.pycache_cache
+*.tsbuildinfo
+dist
+*.db
