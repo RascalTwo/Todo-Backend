@@ -88,14 +88,24 @@ const getWebsocketResponse = async (
   }
 };
 
+const updateMemberCount = (list_code: string) => {
+  const responseString = JSON.stringify(['memberCount', Object.values(rooms[list_code]!).length])
+  for (const member of Object.values(rooms[list_code]!)) {
+    member.send(responseString);
+  }
+}
+
 export const handleWebsocket: WebsocketRequestHandler = (ws, req) => {
   const list_code = req.params['code']!;
 
   const uuid = Date.now().toString();
   if (!(list_code in rooms)) rooms[list_code] = {};
   rooms[list_code]![uuid] = ws;
+  updateMemberCount(list_code);
+
   ws.on('close', () => {
     delete rooms[list_code]![uuid];
+    updateMemberCount(list_code);
   });
 
   ws.on('message', async message => {
