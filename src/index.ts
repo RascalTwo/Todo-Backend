@@ -3,12 +3,14 @@ import fs from 'fs';
 
 import express from 'express';
 import expressWs from 'express-ws';
+import morgan from 'morgan';
 import cors from 'cors';
 
-import { CORS_ORIGIN, PORT, STATIC_DIRECTORY } from './constants';
+import { NODE_ENV, CORS_ORIGIN, PORT, STATIC_DIRECTORY } from './constants';
 import connectToDB from './models/index';
 
 const app = express();
+app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'))
 app.use(cors({
   origin: CORS_ORIGIN
 }));
