@@ -41,14 +41,14 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       completed: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
       },
       created: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
       },
       updated: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
       },
     },
     {

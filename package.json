@@ -1,12 +1,12 @@
 {
   "name": "server",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon --exec 'yarn build && yarn start' --ext ts"
+    "dev": "nodemon --exec 'yarn build && yarn start' --ext ts --ignore dist"
   },
   "author": "",
   "license": "ISC",
