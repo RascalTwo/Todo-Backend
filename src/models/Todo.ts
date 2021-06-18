@@ -3,31 +3,29 @@ import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 export interface TodoAttributes {
   list_code: string;
   text: string;
-  completed: Date | null;
-  created: Date;
-  updated: Date;
+  completed: number | null;
+  created: number;
+  updated: number | null;
 }
 
 export class Todo
-  extends Model<TodoAttributes, Optional<TodoAttributes, 'completed' | 'created' | 'updated'>>
+  extends Model<TodoAttributes, Optional<TodoAttributes, 'completed' | 'updated'>>
   implements TodoAttributes
 {
   public list_code!: string;
   public text!: string;
-  public completed!: Date | null;
+  public completed!: number | null;
+  public created!: number;
+  public updated!: number | null;
 
-  public readonly created!: Date;
-  public readonly updated!: Date;
+  toJSON(){
+    const { completed, updated, ...rest } = this.get();
 
-  toJSON() {
-    const { list_code, text, completed, created, updated } = this.get();
     return {
-      list_code,
-      text,
-      completed: completed?.getTime() || null,
-      created: created.getTime(),
-      updated: updated.getTime(),
-    };
+      ...rest,
+      completed: completed ? completed : null,
+      updated: updated ? updated : null,
+    }
   }
 }
 
@@ -43,20 +41,20 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       completed: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
       },
       created: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       updated: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
       },
     },
     {
       sequelize,
       tableName: 'todo',
-      createdAt: 'created',
-      updatedAt: 'updated',
+      timestamps: false
     },
   );
   Todo.removeAttribute('id');

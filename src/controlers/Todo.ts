@@ -37,14 +37,14 @@ export const handleReadTodos = asyncHandler<{ code: string }>(async (req, res) =
 export const handleCreateTodo = asyncHandler<{ code: string }, any, string>(async (req, res) => {
   const list_code = req.params.code;
   const text = req.body;
-  const newTodo = await Todo.create({ list_code, text });
+  const newTodo = await Todo.create({ list_code, text, created: Date.now() });
   return res.json(newTodo);
 });
 
 export const handleUpdateTodo = asyncHandler<{ code: string }, any, TodoPayload>(async (req, res) => {
   const list_code = req.params.code;
   const { created, ...todoPayload } = req.body;
-  await Todo.update({ list_code, ...todoPayload }, { where: { created } });
+  await Todo.update({ list_code, ...todoPayload, updated: Date.now() }, { where: { created } });
   const updatedTodo = await Todo.findOne({ where: { list_code, created } });
   return res.json(updatedTodo);
 });
@@ -69,12 +69,12 @@ const getWebsocketResponse = async (
   switch (action) {
     case 'create': {
       const text: string = payload;
-      const newTodo = await Todo.create({ list_code, text });
+      const newTodo = await Todo.create({ list_code, text, created: Date.now() });
       return ['create', newTodo];
     }
     case 'update': {
       const { created, ...todoPayload } = payload as TodoPayload;
-      await Todo.update({ list_code, ...todoPayload }, { where: { created } });
+      await Todo.update({ list_code, ...todoPayload, updated: Date.now() }, { where: { created } });
       const updatedTodo = await Todo.findOne({ where: { list_code, created } });
       return ['update', updatedTodo];
     }
