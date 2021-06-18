@@ -4,11 +4,7 @@ import Query from 'mysql2/typings/mysql/lib/protocol/sequences/Query';
 import { WebsocketRequestHandler } from 'express-ws';
 import WebSocket from 'ws';
 
-type TodoPayload = Omit<TodoAttributes, 'list_code'> & {
-  created: number;
-  text: string;
-  completed: number | null;
-};
+type TodoPayload = Omit<TodoAttributes, 'list_code'>
 
 const asyncHandler = <
   P,
@@ -44,7 +40,8 @@ export const handleCreateTodo = asyncHandler<{ code: string }, any, string>(asyn
 export const handleUpdateTodo = asyncHandler<{ code: string }, any, TodoPayload>(async (req, res) => {
   const list_code = req.params.code;
   const { created, ...todoPayload } = req.body;
-  await Todo.update({ list_code, ...todoPayload, updated: Date.now() }, { where: { created } });
+  if (todoPayload.text) todoPayload.updated = Date.now();
+  await Todo.update({ list_code, ...todoPayload }, { where: { created } });
   const updatedTodo = await Todo.findOne({ where: { list_code, created } });
   return res.json(updatedTodo);
 });
@@ -74,7 +71,8 @@ const getWebsocketResponse = async (
     }
     case 'update': {
       const { created, ...todoPayload } = payload as TodoPayload;
-      await Todo.update({ list_code, ...todoPayload, updated: Date.now() }, { where: { created } });
+      if (todoPayload.text) todoPayload.updated = Date.now();
+      await Todo.update({ list_code, ...todoPayload }, { where: { created } });
       const updatedTodo = await Todo.findOne({ where: { list_code, created } });
       return ['update', updatedTodo];
     }
