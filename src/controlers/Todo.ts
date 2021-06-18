@@ -1,4 +1,4 @@
-import { Todo, TodoAttributes } from '../models/Todo.js';
+import { Todo, TodoAttributes } from '../models/Todo';
 import { RequestHandler } from 'express';
 import Query from 'mysql2/typings/mysql/lib/protocol/sequences/Query';
 import { WebsocketRequestHandler } from 'express-ws';

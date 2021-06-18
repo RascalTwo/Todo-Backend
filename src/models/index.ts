@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 
-import { SEQUELIZE_OPTIONS } from '../constants.js';
+import { SEQUELIZE_OPTIONS } from '../constants';
 
-import initTodo from './Todo.js';
+import initTodo from './Todo';
 
 const sequelize = new Sequelize(SEQUELIZE_OPTIONS);
 initTodo(sequelize);

@@ -5,8 +5,8 @@ import express from 'express';
 import expressWs from 'express-ws';
 import cors from 'cors';
 
-import { CORS_ORIGIN, PORT, STATIC_DIRECTORY } from './constants.js';
-import connectToDB from './models/index.js';
+import { CORS_ORIGIN, PORT, STATIC_DIRECTORY } from './constants';
+import connectToDB from './models/index';
 
 const app = express();
 app.use(cors({
@@ -14,8 +14,8 @@ app.use(cors({
 }));
 expressWs(app);
 
-import apiRoutes from './routes/api.js';
-import wsRoutes from './routes/ws.js';
+import apiRoutes from './routes/api';
+import wsRoutes from './routes/ws';
 
 app.use('/api', apiRoutes);
 app.use('/ws', wsRoutes);
