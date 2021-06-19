@@ -1,35 +1,45 @@
-import { Todo, TodoAttributes } from '../models/Todo';
-import { RequestHandler } from 'express';
-import Query from 'mysql2/typings/mysql/lib/protocol/sequences/Query';
+
+import { RequestHandler, NextFunction } from 'express';
 import { WebsocketRequestHandler } from 'express-ws';
 import WebSocket from 'ws';
 
+import { Todo, TodoAttributes } from '../models/Todo';
+
 type TodoPayload = Omit<TodoAttributes, 'list_code'>
 
+/**
+ * Pass any asynchronous errors onto {@link NextFunction}
+ *
+ * @param handler Normal request handler
+ * @returns Request handler that handles asynchronous requests
+ */
 const asyncHandler = <
   P,
   ResBody = any,
   ReqBody = any,
-  ReqQuery = Query,
+  ReqQuery = any,
   Locals extends Record<string, any> = Record<string, any>,
 >(
   handler: RequestHandler<P, ResBody, ReqBody, ReqQuery, Locals>,
 ) => {
-  const wrapper: RequestHandler<P, ResBody, ReqBody, ReqQuery, Locals> = (req, res, next) => {
+  const wrapper: RequestHandler<P, ResBody, ReqBody, ReqQuery, Locals> = (req, res, next: NextFunction) => {
     const result = handler(req, res, next);
     return Promise.resolve(result).catch(next);
   };
   return wrapper;
 };
 
+/** Respond with 200 */
 export const handleHealthCheck: RequestHandler = (_, res) => res.status(200).end();
 
+/** Respond with all {@link Todo Todos} that have the provided {@link Todo.list_code list_code}*/
 export const handleReadTodos = asyncHandler<{ code: string }>(async (req, res) => {
   const list_code = req.params.code;
   const todos = await Todo.findAll({ where: { list_code } });
   return res.json(todos);
 });
 
+/** Create and respond with {@link Todo} */
 export const handleCreateTodo = asyncHandler<{ code: string }, any, string>(async (req, res) => {
   const list_code = req.params.code;
   const text = req.body;
@@ -37,6 +47,7 @@ export const handleCreateTodo = asyncHandler<{ code: string }, any, string>(asyn
   return res.json(newTodo);
 });
 
+/** Update and respond with {@link Todo} */
 export const handleUpdateTodo = asyncHandler<{ code: string }, any, TodoPayload>(async (req, res) => {
   const list_code = req.params.code;
   const { created, ...todoPayload } = req.body;
@@ -46,6 +57,7 @@ export const handleUpdateTodo = asyncHandler<{ code: string }, any, TodoPayload>
   return res.json(updatedTodo);
 });
 
+/** Delete {@link Todo} */
 export const handleDeleteTodo = asyncHandler<{ code: string; created: string }>(async (req, res) => {
   const list_code = req.params.code;
   const created = Number(req.params.created);
@@ -53,16 +65,18 @@ export const handleDeleteTodo = asyncHandler<{ code: string; created: string }>(
   return res.status(200).end();
 });
 
+/** Mapping of rooms to mapping of user IDs to {@link WebSocket} */
 const rooms: Record<string, Record<string, WebSocket>> = {};
 
 type WebsocketActions = 'create' | 'update' | 'delete';
-type WebsocketResponses = WebsocketActions | 'error';
+type WebsocketResponse = WebsocketActions | 'error';
 
+/** Process and respond to provided action and payload with a {@link WebsocketResponse} and payload */
 const getWebsocketResponse = async (
   list_code: string,
   action: WebsocketActions,
   payload: any,
-): Promise<[WebsocketResponses, any]> => {
+): Promise<[WebsocketResponse, any]> => {
   switch (action) {
     case 'create': {
       const text: string = payload;
@@ -86,6 +100,7 @@ const getWebsocketResponse = async (
   }
 };
 
+/** Broadcast member count to all members of {@link list_code} {@link rooms room} */
 const updateMemberCount = (list_code: string) => {
   const responseString = JSON.stringify(['memberCount', Object.values(rooms[list_code]!).length])
   for (const member of Object.values(rooms[list_code]!)) {

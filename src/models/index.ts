@@ -13,6 +13,12 @@ const sequelize = new Sequelize({
 });
 initTodo(sequelize);
 
+/**
+ * Connect to and sync the database.
+ *
+ * @see {@link Sequelize.authenticate}
+ * @see {@link Sequelize.sync}
+ */
 export default async () => {
   await sequelize.authenticate();
   await sequelize.sync();

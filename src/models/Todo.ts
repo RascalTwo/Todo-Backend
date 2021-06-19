@@ -21,6 +21,7 @@ export class Todo
   toJSON(){
     const { completed, updated, ...rest } = this.get();
 
+    // Return null in order to not have missing properties
     return {
       ...rest,
       completed: completed ? completed : null,
@@ -29,6 +30,9 @@ export class Todo
   }
 }
 
+/**
+ * Initialize {@link Todo}
+ */
 export default (sequelize: Sequelize) => {
   Todo.init(
     {

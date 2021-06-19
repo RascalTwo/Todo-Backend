@@ -1,5 +1,5 @@
-import { handleHealthCheck, handleCreateTodo, handleDeleteTodo, handleReadTodos, handleUpdateTodo } from '../controlers/Todo';
 import express, { Router } from 'express';
+import { handleHealthCheck, handleCreateTodo, handleDeleteTodo, handleReadTodos, handleUpdateTodo } from '../controlers/Todo';
 
 const router = Router();
 
