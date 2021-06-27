@@ -4,16 +4,22 @@ import fs from 'fs';
 import express from 'express';
 import expressWs from 'express-ws';
 import morgan from 'morgan';
+import session from 'express-session';
 import cors from 'cors';
 
-import { NODE_ENV, CORS_ORIGIN, PORT, STATIC_DIRECTORY } from './constants';
+import { NODE_ENV, CORS_ORIGIN, SESSION_SECRET, PORT, STATIC_DIRECTORY } from './constants';
 import connectToDB from './models/index';
 
 const app = express();
 app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'))
 app.use(cors({
-  origin: CORS_ORIGIN
+  origin: CORS_ORIGIN,
+  credentials: true
 }));
+app.use(session({
+  secret: SESSION_SECRET,
+  saveUninitialized: true
+}))
 expressWs(app);
 
 import apiRoutes from './routes/api';

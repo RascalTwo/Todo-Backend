@@ -17,3 +17,7 @@ export const SEQUELIZE_OPTIONS = JSON.parse(
 ) as Options;
 
 export const CORS_ORIGIN = process.env['CORS_ORIGIN'] || false;
+
+export const SESSION_SECRET = process.env['SESSION_SECRET'] || 'cat keyboard';
+
+export const CSRF_SECRET = process.env['CSRF_SECRET'] || 'csrf secret';

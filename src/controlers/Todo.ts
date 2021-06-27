@@ -1,9 +1,11 @@
+import { createHmac } from 'crypto';
 
 import { RequestHandler, NextFunction } from 'express';
 import { WebsocketRequestHandler } from 'express-ws';
 import WebSocket from 'ws';
 
 import { Todo, TodoAttributes } from '../models/Todo';
+import { CSRF_SECRET } from '../constants';
 
 type TodoPayload = Omit<TodoAttributes, 'list_code'>
 
@@ -29,6 +31,8 @@ const asyncHandler = <
   return wrapper;
 };
 
+const CSRF_TOKENS: Record<string, string> = {};
+
 /** Respond with 200 */
 export const handleHealthCheck: RequestHandler = (_, res) => res.status(200).end();
 
@@ -36,7 +40,12 @@ export const handleHealthCheck: RequestHandler = (_, res) => res.status(200).end
 export const handleReadTodos = asyncHandler<{ code: string }>(async (req, res) => {
   const list_code = req.params.code;
   const todos = await Todo.findAll({ where: { list_code } });
-  return res.json(todos);
+
+  const sid = req.session.id
+  const csrfToken = createHmac('sha256', CSRF_SECRET).update(Date.now().toString()).update(sid).digest('hex');
+  CSRF_TOKENS[sid] = csrfToken;
+
+  return res.json({ todos, csrf_token: csrfToken });
 });
 
 /** Create and respond with {@link Todo} */
@@ -109,6 +118,9 @@ const updateMemberCount = (list_code: string) => {
 }
 
 export const handleWebsocket: WebsocketRequestHandler = (ws, req) => {
+  const csrfToken = req.headers['sec-websocket-protocol']?.split(', ').slice(1)[0];
+  if (csrfToken !== CSRF_TOKENS[req.session.id]) return ws.close();
+
   const list_code = req.params['code']!;
 
   const uuid = Date.now().toString();
