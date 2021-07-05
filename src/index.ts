@@ -18,7 +18,8 @@ app.use(cors({
 }));
 app.use(session({
   secret: SESSION_SECRET,
-  saveUninitialized: true
+  saveUninitialized: true,
+  resave: false
 }))
 expressWs(app);
 

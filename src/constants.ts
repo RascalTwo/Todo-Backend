@@ -9,7 +9,11 @@ export const NODE_ENV = process.env['NODE_ENV'] as 'production' | 'development' 
 export const PORT = process.env['PORT'] || 5000;
 
 /** Directory of [static assets](https://expressjs.com/en/starter/static-files.html#serving-static-files-in-express) */
-export const STATIC_DIRECTORY = path.join(__dirname, process.env['STATIC_DIRECTORY'] || './static');
+export const STATIC_DIRECTORY = (() => {
+  const passed = process.env['STATIC_DIRECTORY'];
+  if (!passed) return path.join(__dirname, './static');
+  return path.isAbsolute(passed) ? passed : path.join(__dirname, passed);
+})();
 
 /** {@link Options Sequelize Options} */
 export const SEQUELIZE_OPTIONS = JSON.parse(
