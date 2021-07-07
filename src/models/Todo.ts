@@ -19,13 +19,14 @@ export class Todo
   public updated!: number | null;
 
   toJSON(){
-    const { completed, updated, ...rest } = this.get();
+    const { created, completed, updated, ...rest } = this.get();
 
     // Return null in order to not have missing properties
     return {
       ...rest,
-      completed: completed ? completed : null,
-      updated: updated ? updated : null,
+      created: Number(created),
+      completed: completed ? Number(completed) : null,
+      updated: updated ? Number(updated) : null,
     }
   }
 }
