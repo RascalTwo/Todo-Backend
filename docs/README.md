@@ -1,7 +1,8 @@
 [frontend]: ../../../../Todo-Frontend
 [localStorage]: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 [WebSockets]: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API
-[dependancygraph]: ./dependencygraph.svg?raw=1
+[graph]: ./graph.svg?raw=1
+[graph-full]: ./graph-full.svg?raw=1
 
 # Todo Backend
 
@@ -39,6 +40,16 @@ In addition, these Todo items are seperated by List code.
 
 ## Structure
 
-> Click for interactive version
+> Click for interactive versions
 
-[![homepage][dependancygraph]][dependancygraph]
+<details>
+  <summary>Local Files</summary>
+
+  [![][graph]][graph]
+</details>
+
+<details>
+  <summary>Everything</summary>
+
+  [![][graph-full]][graph-full]
+</details>
