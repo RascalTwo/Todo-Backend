@@ -4,14 +4,14 @@ import dotenv from 'dotenv';
 import { Options } from 'sequelize/types';
 dotenv.config();
 
-export const NODE_ENV = process.env['NODE_ENV'] as 'production' | 'development' | 'testing';
+export const NODE_ENV = process.env['NODE_ENV'] || 'production' as 'production' | 'development' | 'testing';
 
 export const PORT = process.env['PORT'] || 5000;
 
 /** Directory of [static assets](https://expressjs.com/en/starter/static-files.html#serving-static-files-in-express) */
 export const STATIC_DIRECTORY = (() => {
   const passed = process.env['STATIC_DIRECTORY'];
-  if (!passed) return path.join(__dirname, './static');
+  if (!passed) return undefined;
   return path.isAbsolute(passed) ? passed : path.join(__dirname, passed);
 })();
 
