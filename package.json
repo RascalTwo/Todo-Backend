@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "4.0.3",
+  "version": "5.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -17,7 +17,6 @@
     "express-session": "^1.17.2",
     "express-ws": "^5.0.2",
     "morgan": "^1.10.0",
-    "mysql2": "^2.2.5",
     "sequelize": "^6.6.2",
     "sqlite3": "^5.0.2",
     "tslib": "^2.3.0",
