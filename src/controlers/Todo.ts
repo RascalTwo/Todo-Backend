@@ -128,9 +128,20 @@ export const handleWebsocket: WebsocketRequestHandler = (ws, req) => {
   ROOMS[list_code]![uuid] = ws;
   updateMemberCount(list_code);
 
+
+  const pingClient = () => {
+    if (!(uuid in ROOMS[list_code]!)) return;
+    ws.ping(0x9);
+    // Once every 15 minutes
+    return setTimeout(pingClient, 15 * 60 * 1000);
+  }
+  let pingInterval = pingClient()!
+
+
   ws.on('close', () => {
     delete ROOMS[list_code]![uuid];
     updateMemberCount(list_code);
+    clearInterval(pingInterval);
   });
 
   ws.on('message', async message => {
