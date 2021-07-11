@@ -1,0 +1,8 @@
+.dockerignore
+Dockerfile
+.git
+node_modules
+.env
+dist
+*.db
+tsconfig.tsbuildinfo
