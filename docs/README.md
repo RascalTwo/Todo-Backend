@@ -3,6 +3,8 @@
 [WebSockets]: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API
 [graph]: ./graph.svg?raw=1
 [graph-full]: ./graph-full.svg?raw=1
+[sequelize options]: https://sequelize.org/master/class/lib/sequelize.js~Sequelize.html#instance-constructor-constructor
+[sequelize]: https://github.com/sequelize/sequelize/
 
 # Todo Backend
 
@@ -19,7 +21,8 @@ In addition, these Todo items are seperated by List code.
 | Variable            | Default Value    | Description |
 | -                   | -                | -           |
 | `PORT`              | `5000`           | Port to run server on |
-| `STATIC_DIRECTORY`  |                  | Where to serve static asserts from, optional |
+| `SEQUELIZE_OPTIONS` | `5000`           | Port to run server on |
+| `STATIC_DIRECTORY`  | `{"dialect":"sqlite","storage":"./database.db"}` | [`sequelize`][sequelize] connection [options][sequelize options] |
 | `NODE_ENV`          | `"production"`   | Changes various [behaviors](#node_env) |
 | `CORS_ORIGIN`       | `false`          | [`cors`](https://github.com/expressjs/cors) [`origin`](https://github.com/expressjs/cors#configuration-options) value |
 | `SESSION_SECRET`    | `"cat keyboard"` | [`express-session`](https://github.com/expressjs/session) [`secret`](https://github.com/expressjs/session#secret) value |
@@ -28,15 +31,13 @@ In addition, these Todo items are seperated by List code.
 ### `NODE_ENV`
 
 [morgan]: https://github.com/expressjs/morgan
-[sequelize]: https://github.com/sequelize/sequelize/
-[sequelize logging]: https://sequelize.org/master/class/lib/sequelize.js~Sequelize.html#instance-constructor-constructor
 
 - `production`
   - [`morgan`][morgan] logging style set to [`combined`](https://github.com/expressjs/morgan#combined)
-  - Disable [`sequelize`][sequelize] [`logging`][sequelize logging]
+  - Disable [`sequelize`][sequelize] [`logging`][sequelize options]
 - `development`/`testing`
   - [`morgan`][morgan] logging style set to [`dev`](https://github.com/expressjs/morgan#dev)
-  - Enable [`sequelize`][sequelize] [`logging`][sequelize logging]
+  - Enable [`sequelize`][sequelize] [`logging`][sequelize options]
 
 ## Structure
 
