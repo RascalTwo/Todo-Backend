@@ -1,4 +1,5 @@
 [frontend]: ../../../../Todo-Frontend
+[fullstack]: ../../../../Todo-Fullstack
 [localStorage]: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 [WebSockets]: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API
 [graph]: ./graph.svg?raw=1
@@ -49,7 +50,9 @@
 <code><a href="../Dockerfile.dev"><img alt="Docker" title="Docker" src="https://raw.githubusercontent.com/github/explore/main/topics/docker/docker.png" width="50" /></a></code>
 <code><img alt="GitHub" title="GitHub" src="https://raw.githubusercontent.com/github/explore/main/topics/github/github.png" width="50" /></code>
 
-TypeScript + Express + Sequelize to support the [Todo Backend][frontend].
+TypeScript + Express + Sequelize to support the [Todo Frontend][frontend].
+
+Full deployment/development with the [Frontend][frontend] can be achieved by using the [Todo Fullstack][fullstack] repository.
 
 ## Features
 
