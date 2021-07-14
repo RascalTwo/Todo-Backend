@@ -8,7 +8,47 @@
 
 # Todo Backend
 
-TypeScript + Express + Sequelize to support the [Todo Frontend][frontend].
+![visitors](https://visitor-badge.glitch.me/badge?page_id=RascalTwo.Todo-Backend)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/RascalTwo/Todo-Backend)
+
+<details>
+  <summary>Statistics</summary>
+
+  ![GitHub language count](https://img.shields.io/github/languages/count/RascalTwo/Todo-Backend)
+  ![GitHub top language](https://img.shields.io/github/languages/top/RascalTwo/Todo-Backend)
+  ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/RascalTwo/Todo-Backend)
+  ![Lines of code](https://img.shields.io/tokei/lines/github/RascalTwo/Todo-Backend)
+</details>
+
+<details>
+  <summary>Repository</summary>
+
+  ![GitHub issues](https://img.shields.io/github/issues/RascalTwo/Todo-Backend)
+  ![GitHub closed issues](https://img.shields.io/github/issues-closed/RascalTwo/Todo-Backend)
+  ![GitHub pull requests](https://img.shields.io/github/issues-pr/RascalTwo/Todo-Backend)
+  ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/RascalTwo/Todo-Backend)
+  ![GitHub last commit](https://img.shields.io/github/last-commit/RascalTwo/Todo-Backend)
+</details>
+
+> Primary
+
+<code><a href="../tsconfig.json"><img alt="TypeScript" title="TypeScript" src="https://raw.githubusercontent.com/github/explore/main/topics/typescript/typescript.png" width="50" /></a></code>
+<code><img alt="Express" title="Express" src="https://expressjs.com/images/favicon.png" width="50" /></code>
+<code><img alt="Sequelize" title="Sequelize" src="https://sequelize.org/master/manual/asset/logo-small.png" width="50" /></code>
+
+> Secondary
+
+<code><img alt="JavaScript" title="JavaScript" src="https://raw.githubusercontent.com/github/explore/main/topics/javascript/javascript.png" width="50" /></code>
+<code><img alt="JSON" title="JSON" src="https://raw.githubusercontent.com/github/explore/main/topics/json/json.png" width="50" /></code>
+
+> Tooling
+
+<code><img alt="Git" title="Git" src="https://raw.githubusercontent.com/github/explore/main/topics/git/git.png" width="50" /></code>
+<code><a href="../package.json"><img alt="Yarn" title="Yarn" src="https://avatars.githubusercontent.com/u/22247014" width="50" /></a></code>
+<code><a href="../Dockerfile.dev"><img alt="Docker" title="Docker" src="https://raw.githubusercontent.com/github/explore/main/topics/docker/docker.png" width="50" /></a></code>
+<code><img alt="GitHub" title="GitHub" src="https://raw.githubusercontent.com/github/explore/main/topics/github/github.png" width="50" /></code>
+
+TypeScript + Express + Sequelize to support the [Todo Backend][frontend].
 
 ## Features
 
