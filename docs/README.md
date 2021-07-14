@@ -50,7 +50,7 @@
 <code><a href="../Dockerfile.dev"><img alt="Docker" title="Docker" src="https://raw.githubusercontent.com/github/explore/main/topics/docker/docker.png" width="50" /></a></code>
 <code><img alt="GitHub" title="GitHub" src="https://raw.githubusercontent.com/github/explore/main/topics/github/github.png" width="50" /></code>
 
-TypeScript + Express + Sequelize to support the [Todo Frontend][frontend].
+TypeScript + Express + Sequelize to support the [![Todo Frontend package.json version](https://img.shields.io/github/package-json/v/RascalTwo/Todo-Frontend?label=Todo%20Frontend)][frontend].
 
 Full deployment/development with the [Frontend][frontend] can be achieved by using the [Todo Fullstack][fullstack] repository.
 
