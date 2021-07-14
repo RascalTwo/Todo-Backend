@@ -10,6 +10,7 @@
 
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=RascalTwo.Todo-Backend)
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/RascalTwo/Todo-Backend)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/RascalTwo/Todo-Backend)
 
 <details>
   <summary>Statistics</summary>
