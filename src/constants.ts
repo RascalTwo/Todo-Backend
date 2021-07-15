@@ -20,6 +20,8 @@ export const SEQUELIZE_OPTIONS = JSON.parse(
   process.env['SEQUELIZE_OPTIONS'] || JSON.stringify({ dialect: 'sqlite', storage: './database.db' }),
 ) as Options;
 
+export const DATABASE_URL = process.env['DATABASE_URL'] || null;
+
 export const CORS_ORIGIN = process.env['CORS_ORIGIN'] || false;
 
 export const SESSION_SECRET = process.env['SESSION_SECRET'] || 'cat keyboard';

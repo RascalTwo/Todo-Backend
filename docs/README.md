@@ -65,8 +65,9 @@ In addition, these Todo items are seperated by List code.
 | Variable            | Default Value    | Description |
 | -                   | -                | -           |
 | `PORT`              | `5000`           | Port to run server on |
-| `SEQUELIZE_OPTIONS` | `5000`           | Port to run server on |
-| `STATIC_DIRECTORY`  | `{"dialect":"sqlite","storage":"./database.db"}` | [`sequelize`][sequelize] connection [options][sequelize options] |
+| `STATIC_DIRECTORY`  |                  | Directory to serve static assets from |
+| `DATABASE_URL`      |                  | Connection URL for the database |
+| `SEQUELIZE_OPTIONS` | `{"dialect":"sqlite","storage":"./database.db"}` | [`sequelize`][sequelize] connection [options][sequelize options] |
 | `NODE_ENV`          | `"production"`   | Changes various [behaviors](#node_env) |
 | `CORS_ORIGIN`       | `false`          | [`cors`](https://github.com/expressjs/cors) [`origin`](https://github.com/expressjs/cors#configuration-options) value |
 | `SESSION_SECRET`    | `"cat keyboard"` | [`express-session`](https://github.com/expressjs/session) [`secret`](https://github.com/expressjs/session#secret) value |

@@ -1,16 +1,17 @@
 import { Sequelize } from 'sequelize';
 
-import { NODE_ENV, SEQUELIZE_OPTIONS } from '../constants';
+import { NODE_ENV, SEQUELIZE_OPTIONS, DATABASE_URL } from '../constants';
 
 import initTodo from './Todo';
 
-const sequelize = new Sequelize({
+const options = {
   ...SEQUELIZE_OPTIONS,
   logging:
     NODE_ENV !== 'production' // @ts-ignore
       ? (sql, timing) => console.log(sql + (timing && timing.bind ? ' ' + timing.bind.toString() : ''))
       : false,
-});
+}
+const sequelize = DATABASE_URL ? new Sequelize(DATABASE_URL, options) : new Sequelize(options);
 initTodo(sequelize);
 
 /**
